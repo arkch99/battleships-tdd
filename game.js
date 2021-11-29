@@ -6,7 +6,12 @@ const Ship = function(length) {
 			return this.locations.reduce((prev, curr) => prev && curr)
 		},
 		hit: function(pos){
-			this.locations[pos] = true;			
+			if(!this.locations[pos])
+			{
+				this.locations[pos] = true;
+				return true;
+			}
+			return false;
 		}
 	}
 }
@@ -67,6 +72,56 @@ const Gameboard = function() {
 			}
 			this.mat[x][y] = Ship(length);
 			return true;
+		},
+		receiveAttack: function(x, y) {
+			let attackObj = {invalid:null, hit:null, ship:null};
+			if(this.mat[x][y] === null) // miss
+			{
+				attackObj.invalid = false;
+				attackObj.hit = false;				
+				this.mat[x][y] = -1;
+			}	
+			else if(this.mat[x][y] === -1) // hit already missed square
+			{
+				attackObj.invalid = true;
+			}
+			else
+			{
+				if(Array.isArray(this.mat[x][y])) // hit body of ship
+				{
+					let ship_x  = this.mat[x][y][0];
+					let ship_y  = this.mat[x][y][1];
+					let hitShip = this.mat[ship_x][ship_y];					
+					let hitPos = Math.max(x - ship_x, y - ship_y); // calculate position of hit on ship
+					successfulHit = hitShip.hit(hitPos);
+					if(successfulHit)
+					{
+						attackObj.invalid = false;
+						attackObj.hit = true;
+						attackObj.ship = hitShip;
+					}
+					else // already hit
+					{
+						attackObj.invalid = true;						
+					}
+				}
+				else if(typeof(this.mat[x][y]) === 'object')
+				{
+					let hitShip = this.mat[x][y];
+					successfulHit = hitShip.hit(0);
+					if(successfulHit)
+					{
+						attackObj.invalid = false;
+						attackObj.hit = true;
+						attackObj.ship = hitShip;
+					}
+					else // already hit
+					{
+						attackObj.invalid = true;						
+					}
+				}
+			}
+			return attackObj;
 		}
 	};
 }

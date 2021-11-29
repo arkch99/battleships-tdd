@@ -14,7 +14,11 @@ describe('Ship', () => {
 		expect(testShip.isSunk()).toBe(false);
 	});
 	test('can be hit', () => {
-		testShip.hit(3);
+		expect(testShip.hit(3)).toBe(true);
+		expect(testShip.locations[3]).toBe(true);
+	});
+	test('cannot be hit twice on same square', () => {
+		expect(testShip.hit(3)).toBe(false);
 		expect(testShip.locations[3]).toBe(true);
 	});
 	test('is sunk when all locations hit', () => {
@@ -86,6 +90,78 @@ describe('Gameboard', () => {
 		});
 		test('does not allow linear overlap - vertical', () => {
 			expect(board.placeShip([7, 7], 2, 1)).toBe(false);
+		});
+	});
+	describe('attacking', () => {
+		beforeAll(() => {
+			board = game.Gameboard();
+			board.placeShip([1, 2], 5, 0);
+			board.placeShip([4, 5], 3, 0);
+			board.placeShip([5, 2], 2, 1);
+			board.placeShip([7, 7], 3, 1);
+		});
+		test('registers missed attack', () => {
+			expect(board.receiveAttack(0, 4)).toMatchObject({
+				invalid: false,
+				hit: false,
+				ship: null
+			});
+			expect(board.receiveAttack(6, 4)).toMatchObject({
+				invalid: false,
+				hit: false,
+				ship: null
+			});
+		});
+		test('registers hits on body', () => {
+			expect(board.receiveAttack(1, 4)).toStrictEqual({
+				invalid: false,
+				hit: true,
+				ship: {
+					length: 5,
+					locations:[false, false, true, false, false],
+					isSunk: expect.any(Function),
+					hit: expect.any(Function)
+				}
+			});
+		});
+		test('registers hits on head', () => {
+			expect(board.receiveAttack(7, 7)).toStrictEqual({
+				invalid: false,
+				hit: true,
+				ship: {
+					length: 3,
+					locations:[true, false, false],
+					isSunk: expect.any(Function),
+					hit: expect.any(Function)
+				}
+			});
+		});
+		test('registers mutiple hits', () => {
+			board.receiveAttack(4, 6);
+			expect(board.receiveAttack(4, 5)).toStrictEqual({
+				invalid: false,
+				hit: true,
+				ship: {
+					length: 3,
+					locations: [true, true, false],
+					isSunk: expect.any(Function),
+					hit: expect.any(Function)
+				}
+			});
+		});
+		test('does not allow attack on hit square', () => {
+			expect(board.receiveAttack(4, 6)).toStrictEqual({
+				invalid: true,
+				hit: null,
+				ship: null
+			});
+		});
+		test('does not allow attack on missed square', () => {
+			expect(board.receiveAttack(0, 4)).toStrictEqual({
+				invalid: true,
+				hit: null,
+				ship: null
+			});
 		});
 	});
 })
