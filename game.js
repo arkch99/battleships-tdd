@@ -101,6 +101,11 @@ const Gameboard = function() {
 						attackObj.invalid = false;
 						attackObj.hit = true;
 						attackObj.ship = hitShip;
+
+						if(hitShip.isSunk())
+						{
+							this.nShips--;
+						}
 					}
 					else // already hit
 					{
@@ -116,6 +121,11 @@ const Gameboard = function() {
 						attackObj.invalid = false;
 						attackObj.hit = true;
 						attackObj.ship = hitShip;
+
+						if(hitShip.isSunk())
+						{
+							this.nShips--;
+						}
 					}
 					else // already hit
 					{

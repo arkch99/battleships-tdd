@@ -115,9 +115,13 @@ describe('Gameboard', () => {
 			board.placeShip([1, 2], 5, 0);
 			board.placeShip([4, 5], 3, 0);
 			board.placeShip([5, 2], 2, 1);
-			board.placeShip([7, 7], 3, 1);
+			board.placeShip([7, 7], 3, 1);				
 		});
+		test('(meta) placed 4 ships', () => {
+			expect(board.nShips).toBe(4);
+		});		
 		test('registers missed attack', () => {
+			let nPrevShips = board.nShips;
 			expect(board.receiveAttack(0, 4)).toMatchObject({
 				invalid: false,
 				hit: false,
@@ -128,6 +132,7 @@ describe('Gameboard', () => {
 				hit: false,
 				ship: null
 			});
+			expect(board.nShips).toBe(nPrevShips);
 		});
 		test('registers hits on body', () => {
 			expect(board.receiveAttack(1, 4)).toStrictEqual({
@@ -154,6 +159,7 @@ describe('Gameboard', () => {
 			});
 		});
 		test('registers mutiple hits', () => {
+			let nPrevShips = board.nShips;
 			board.receiveAttack(4, 6);
 			expect(board.receiveAttack(4, 5)).toStrictEqual({
 				invalid: false,
@@ -165,7 +171,15 @@ describe('Gameboard', () => {
 					hit: expect.any(Function)
 				}
 			});
+			expect(board.nShips).toStrictEqual(nPrevShips);
 		});
+		test('decrements ship count on sinking', () => {
+			let nPrevShips = board.nShips;
+			let boardResponse = board.receiveAttack(4, 7);
+			expect(boardResponse.hit).toBe(true);
+			expect(boardResponse.ship.isSunk()).toBe(true);
+			expect(board.nShips).toStrictEqual(nPrevShips - 1);
+		})
 		test('does not allow attack on hit square', () => {
 			expect(board.receiveAttack(4, 6)).toStrictEqual({
 				invalid: true,
