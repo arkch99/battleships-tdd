@@ -1,20 +1,4 @@
-const Ship = function(length) {
-	return {
-		length: length,		
-		locations: Array(length).fill(false),
-		isSunk: function(){
-			return this.locations.reduce((prev, curr) => prev && curr)
-		},
-		hit: function(pos){
-			if(!this.locations[pos])
-			{
-				this.locations[pos] = true;
-				return true;
-			}
-			return false;
-		}
-	}
-}
+const ship = require('./ship');
 
 const Gameboard = function() {
 	return {
@@ -71,7 +55,7 @@ const Gameboard = function() {
 					this.mat[x][i] = [x, y]; // coords of parent ship
 				}
 			}
-			this.mat[x][y] = Ship(length);
+			this.mat[x][y] = ship.Ship(length);
 			this.nShips++;
 			return true;
 		},
@@ -138,4 +122,4 @@ const Gameboard = function() {
 	};
 }
 
-module.exports = {Ship, Gameboard};
+module.exports = {Gameboard};

@@ -1,39 +1,9 @@
-const game = require("./game");
-
-describe('Ship', () => {
-	beforeAll(() => {
-		testShip = game.Ship(4);
-	});
-	test('is created', ()=>{
-		expect(testShip).not.toBeUndefined();
-	}); 	
-	test('has length 4', () => {
-		expect(testShip.length).toBe(4);
-	});
-	test('is intact by default', () => {
-		expect(testShip.isSunk()).toBe(false);
-	});
-	test('can be hit', () => {
-		expect(testShip.hit(3)).toBe(true);
-		expect(testShip.locations[3]).toBe(true);
-	});
-	test('cannot be hit twice on same square', () => {
-		expect(testShip.hit(3)).toBe(false);
-		expect(testShip.locations[3]).toBe(true);
-	});
-	test('is sunk when all locations hit', () => {
-		for(let i = 0; i < testShip.length; i++)
-		{
-			testShip.hit(i);
-		}		
-		expect(testShip.isSunk()).toBe(true);
-	});
-});
+const gameboard = require('./gameboard');
 
 describe('Gameboard', () => {	
 	describe('basic', () => {
 		beforeAll(() => {
-			board = game.Gameboard();
+			board = gameboard.Gameboard();
 		});
 		test('is created', () => {
 			expect(board).not.toBeUndefined();
@@ -72,7 +42,7 @@ describe('Gameboard', () => {
 	});
 	describe('boundary and overlap check', () => {
 		beforeAll(() => {
-			board = game.Gameboard();
+			board = gameboard.Gameboard();
 			board.placeShip([1, 2], 5, 0);
 			board.placeShip([4, 5], 3, 0);
 			board.placeShip([5, 2], 2, 1);
@@ -111,7 +81,7 @@ describe('Gameboard', () => {
 	});
 	describe('attacking', () => {
 		beforeAll(() => {
-			board = game.Gameboard();
+			board = gameboard.Gameboard();
 			board.placeShip([1, 2], 5, 0);
 			board.placeShip([4, 5], 3, 0);
 			board.placeShip([5, 2], 2, 1);
@@ -195,4 +165,4 @@ describe('Gameboard', () => {
 			});
 		});
 	});
-})
+});
