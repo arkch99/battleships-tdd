@@ -19,6 +19,7 @@ const Ship = function(length) {
 const Gameboard = function() {
 	return {
 		mat: [...Array(10)].map(row => Array(10).fill(null)),
+		nShips: 0,
 		placeShip: function(coords, length, dir) {
 			// dir = 0 => horz; dir = 1 => vert
 			let x = coords[0];
@@ -71,6 +72,7 @@ const Gameboard = function() {
 				}
 			}
 			this.mat[x][y] = Ship(length);
+			this.nShips++;
 			return true;
 		},
 		receiveAttack: function(x, y) {

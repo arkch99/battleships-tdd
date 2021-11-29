@@ -41,11 +41,15 @@ describe('Gameboard', () => {
 		test('has proper dimensions', () => {
 			expect(board.mat.length).toBe(10) && expect(board.mat[0].length).toBe(10);
 		});
+		test('starts empty', () => {
+			expect(board.nShips).toStrictEqual(0);
+		});
 		test('can place ships horizontally within bounds', () => {
+			let nPrevShips = board.nShips;
 			let placed = board.placeShip([4, 5], 3, 0); // ship of length 3, horz, at (4,5)
-			let correctlyAssigned = true;
+			let correctlyAssigned = true;			
 			expect(placed).toBe(true);
-	
+			expect(board.nShips).toBe(nPrevShips + 1);
 			for(let i = 6; i < 8; i++)
 			{
 				correctlyAssigned = correctlyAssigned && (board.mat[4][i][0] == 4 && board.mat[4][i][1] == 5)
@@ -54,9 +58,10 @@ describe('Gameboard', () => {
 			expect(correctlyAssigned).toBe(true);
 		});
 		test('can place ships vertically within bounds', () => {
+			let nPrevShips = board.nShips;
 			let placed = board.placeShip([7, 7], 3, 1);		
 			expect(placed).toBe(true);
-	
+			expect(board.nShips).toBe(nPrevShips + 1);
 			let correctlyAssigned = true;
 			for(let i = 8; i < 10; i++)
 			{
@@ -74,22 +79,34 @@ describe('Gameboard', () => {
 			board.placeShip([7, 7], 3, 1);
 		});
 		test('does not allow placing ships horizontally out of bounds', () => {
+			let nPrevShips = board.nShips;
 			expect(board.placeShip([3, 8], 3, 0)).toBe(false);
+			expect(board.nShips).toBe(nPrevShips);
 		});
 		test('does not allow placing ships vertically out of bounds', () => {
+			let nPrevShips = board.nShips;
 			expect(board.placeShip([6, 3], 5, 1)).toBe(false);
+			expect(board.nShips).toBe(nPrevShips);
 		});
 		test('does not allow orthogonal overlap - source vertical', () => {
+			let nPrevShips = board.nShips;
 			expect(board.placeShip([0, 3], 3, 1)).toBe(false);
+			expect(board.nShips).toBe(nPrevShips);
 		});
 		test('does not allow orthogonal overlap - source horizontal', () => {
+			let nPrevShips = board.nShips;
 			expect(board.placeShip([6, 1], 5, 0)).toBe(false);
+			expect(board.nShips).toBe(nPrevShips);
 		});
 		test('does not allow linear overlap - horizontal', () => {
+			let nPrevShips = board.nShips;
 			expect(board.placeShip([4, 4], 3, 0)).toBe(false);
+			expect(board.nShips).toBe(nPrevShips);
 		});
 		test('does not allow linear overlap - vertical', () => {
+			let nPrevShips = board.nShips;
 			expect(board.placeShip([7, 7], 2, 1)).toBe(false);
+			expect(board.nShips).toBe(nPrevShips);
 		});
 	});
 	describe('attacking', () => {
