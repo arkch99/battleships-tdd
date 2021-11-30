@@ -3,7 +3,7 @@ const player = require('./player');
 describe('Player', () => {
 	beforeAll(() => {
 		playerA = player.Player('Me', false);
-		playerB = player.Player('AI', false);
+		playerB = player.Player('AI', true);
 	});
 	test('player is created with name given', () => {
 		expect(playerA.name).toBe('Me');
@@ -17,5 +17,14 @@ describe('Player', () => {
 			mat: expect.any(Array),
 		});
 		expect(playerA.board !== playerB.board).toBe(true);
+	});
+	
+	test("player gets feedback on moves", () => {
+		let result = playerA.makeMove(playerB, 3, 4);
+		expect(result).toMatchObject({
+			invalid: false,
+			hit: false,
+			ship: null
+		});
 	});
 });
