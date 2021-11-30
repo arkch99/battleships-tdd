@@ -118,6 +118,30 @@ const Gameboard = function() {
 				}
 			}
 			return attackObj;
+		},
+		setupBoard: function() {
+			let nShips = 5;
+			const lengths = [5, 4, 3, 3, 2];
+			let placedShips = 0;
+			while(placedShips < nShips)
+			{
+				const currentLength = lengths[placedShips];
+				let x = Math.floor(Math.random() * (10 - 0) + 0);
+				let y = Math.floor(Math.random() * (10 - 0) + 0);
+				let dir = Math.floor(Math.random() * (2 - 0) + 0);
+				if(this.mat[x][y] === null)
+				{
+					if(!this.placeShip([x, y], currentLength, dir))
+					{
+						continue;
+					}
+					placedShips++;
+				}
+				else
+				{
+					continue;
+				}
+			}
 		}
 	};
 }
