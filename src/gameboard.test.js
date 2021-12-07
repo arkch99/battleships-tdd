@@ -1,9 +1,10 @@
-const gameboard = require('./gameboard');
+import Gameboard from './gameboard';
+// import Gameboard from './gameboard.js';
 
 describe('Gameboard', () => {	
 	describe('basic', () => {
 		beforeAll(() => {
-			board = gameboard.Gameboard();
+			board = Gameboard();
 		});
 		test('is created', () => {
 			expect(board).not.toBeUndefined();
@@ -42,7 +43,7 @@ describe('Gameboard', () => {
 	});
 	describe('boundary and overlap check', () => {
 		beforeAll(() => {
-			board = gameboard.Gameboard();
+			board = Gameboard();
 			board.placeShip([1, 2], 5, 0);
 			board.placeShip([4, 5], 3, 0);
 			board.placeShip([5, 2], 2, 1);
@@ -81,7 +82,7 @@ describe('Gameboard', () => {
 	});
 	describe('attacking', () => {
 		beforeAll(() => {
-			board = gameboard.Gameboard();
+			board = Gameboard();
 			board.placeShip([1, 2], 5, 0);
 			board.placeShip([4, 5], 3, 0);
 			board.placeShip([5, 2], 2, 1);

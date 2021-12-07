@@ -16,4 +16,5 @@ const Ship = function(length) {
 	}
 }
 
-module.exports = {Ship};
+// module.exports = {Ship};
+export default Ship;

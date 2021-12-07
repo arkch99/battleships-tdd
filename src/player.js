@@ -1,11 +1,12 @@
-const gameboard = require('./gameboard');
+// const gameboard = require('./gameboard');
+import Gameboard from "./gameboard.js";
 
 const Player = function(name, isAI){
 
 	return {
 		name: name,
 		isAI: isAI,
-		board: gameboard.Gameboard(),
+		board: Gameboard(),
 		moveHistory: new Set(),
 		makeMove: function(opponent, x, y){
 			let result = opponent.board.receiveAttack(x, y);	
@@ -36,4 +37,5 @@ const Player = function(name, isAI){
 	};
 }
 
-module.exports = {Player};
+// module.exports = {Player};
+export default Player;

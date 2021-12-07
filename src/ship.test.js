@@ -1,8 +1,8 @@
-const ship = require('./ship');
+import Ship from './ship';
 
 describe('Ship', () => {
 	beforeAll(() => {
-		testShip = ship.Ship(4);
+		testShip = Ship(4);
 	});
 	test('is created', ()=>{
 		expect(testShip).not.toBeUndefined();

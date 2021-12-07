@@ -1,9 +1,9 @@
-const player = require('./player');
+import Player from './player';
 
 describe('Player', () => {
 	beforeAll(() => {
-		playerA = player.Player('Me', false);
-		playerB = player.Player('AI', true);
+		playerA = Player('Me', false);
+		playerB = Player('AI', true);
 	});
 	test('player is created with name given', () => {
 		expect(playerA.name).toBe('Me');

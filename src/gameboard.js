@@ -1,4 +1,5 @@
-const ship = require('./ship');
+// const ship = require('./ship');
+import Ship from "./ship.js";
 
 const Gameboard = function() {
 	return {
@@ -55,7 +56,7 @@ const Gameboard = function() {
 					this.mat[x][i] = [x, y]; // coords of parent ship
 				}
 			}
-			this.mat[x][y] = ship.Ship(length);
+			this.mat[x][y] = Ship(length);
 			this.nShips++;
 			return true;
 		},
@@ -146,4 +147,5 @@ const Gameboard = function() {
 	};
 }
 
-module.exports = {Gameboard};
+// module.exports = {Gameboard};
+export default Gameboard;
