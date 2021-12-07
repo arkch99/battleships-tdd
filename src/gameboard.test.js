@@ -2,6 +2,7 @@ import Gameboard from './gameboard';
 // import Gameboard from './gameboard.js';
 
 describe('Gameboard', () => {	
+	let board;
 	describe('basic', () => {
 		beforeAll(() => {
 			board = Gameboard();

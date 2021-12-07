@@ -1,7 +1,6 @@
-// const ship = require('./ship');
 import Ship from "./ship.js";
 
-const Gameboard = function() {
+const Gameboard = function() {	
 	return {
 		mat: [...Array(10)].map(row => Array(10).fill(null)),
 		nShips: 0,
@@ -80,7 +79,7 @@ const Gameboard = function() {
 					let ship_y  = this.mat[x][y][1];
 					let hitShip = this.mat[ship_x][ship_y];					
 					let hitPos = Math.max(x - ship_x, y - ship_y); // calculate position of hit on ship
-					successfulHit = hitShip.hit(hitPos);
+					let successfulHit = hitShip.hit(hitPos);
 					if(successfulHit)
 					{
 						attackObj.invalid = false;
@@ -100,7 +99,7 @@ const Gameboard = function() {
 				else if(typeof(this.mat[x][y]) === 'object')
 				{
 					let hitShip = this.mat[x][y];
-					successfulHit = hitShip.hit(0);
+					let successfulHit = hitShip.hit(0);
 					if(successfulHit)
 					{
 						attackObj.invalid = false;

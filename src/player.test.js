@@ -1,6 +1,7 @@
 import Player from './player';
 
 describe('Player', () => {
+	let playerA, playerB;
 	beforeAll(() => {
 		playerA = Player('Me', false);
 		playerB = Player('AI', true);

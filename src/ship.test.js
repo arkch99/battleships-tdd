@@ -1,6 +1,7 @@
 import Ship from './ship';
 
 describe('Ship', () => {
+	let testShip;
 	beforeAll(() => {
 		testShip = Ship(4);
 	});
