@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base href=".">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <script type="module" src="./scripts/index.js"></script>
+	<script type="module" src="./scripts/gameboard.js"></script>
+	<script type="module" src="./scripts/player.js"></script>
+	<script type="module" src="./scripts/ship.js"></script> -->	
+	<title>Battleship</title>
+</head>
+<body>
+	<h1 id="heading">Battleship</h1>
+	
+	<div id="info-get-screen">
+	<h2>Enter your name</h1>
+	<input type="text" id="player-name" placeholder="Your name" required>
+	<button id="player-name-submit">Submit</button>
+	</div>
+
+	<div id="game-screen" style="display: none;">
+	<div class="info-display">
+		<div id="turn-display">
+			
+		</div>
+		<div class="ship-number-display">
+			<span class="player-info">
+				<span class="player-name"></span><span>'s ships:</span> <span id="player-ships"></span>
+			</span>
+			<span class="opp-info">
+				<span class="opp-name"></span><span>'s ships:</span> <span id="opp-ships"></span>
+			</span>
+		</div>
+	</div>
+	<div class="game-area">		
+		<div id="own-board">
+			<!-- own board, rendered by js -->
+		</div>
+		<div id="opp-board">
+			<!-- opponent board, rendered by js -->
+		</div>
+
+	</div>
+	</div>
+	<script src="main.js"></script>
+</body>
+</html>
