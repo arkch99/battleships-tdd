@@ -1,11 +1,7 @@
 import Gameboard from './gameboard.js';
 import Player from './player.js';
 import Ship from './ship.js';
-
-// function drawBoard(container)
-// {
-
-// }
+import './style.scss';
 
 function drawBoards(player1, player2)
 {
@@ -14,6 +10,22 @@ function drawBoards(player1, player2)
 
 	player1BoardContainer.style.gridTemplateRows = 'repeat(10, auto)';
 	player1BoardContainer.style.gridTemplateColumns = 'repeat(10, auto)';
+
+	for(let i = 0; i < 10; i++)
+	{
+		for(let j = 0; j < 10; j++)
+		{
+			let cellPlayer = document.createElement('div');
+			cellPlayer.classList.add('board-cell');					
+			cellPlayer.id = `pl${i}${j}`;
+			player1BoardContainer.appendChild(cellPlayer);
+			
+			let cellOpp = document.createElement('div');
+			cellOpp.classList.add('board-cell');
+			cellOpp.id = `op${i}${j}`;			
+			player2BoardContainer.appendChild(cellOpp);
+		}
+	}
 	
 	player2BoardContainer.style.gridTemplateRows = 'repeat(10, auto)';
 	player2BoardContainer.style.gridTemplateColumns = 'repeat(10, auto)';
