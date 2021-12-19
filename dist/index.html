@@ -11,34 +11,33 @@
 	<h1 id="heading">Battleship</h1>
 	
 	<div id="info-get-screen">
-	<h2>Enter your name</h1>
-	<input type="text" id="player-name" placeholder="Your name" required>
-	<button id="player-name-submit">Submit</button>
+		<h2>Enter your name</h1>
+		<input type="text" id="player-name" placeholder="Your name" required>
+		<button id="player-name-submit">Submit</button>
 	</div>
 
 	<div id="game-screen" style="display: none;">
-	<div class="info-display">
-		<div id="turn-display">
-			
+		<div class="info-display">
+			<div id="turn-display">
+				<!-- Displays whose turn it is, duh -->
+			</div>
+			<div class="ship-number-display">
+				<span class="player-info">
+					<span class="player-name"></span><span>'s ships:</span> <span id="player-ships"></span>
+				</span>
+				<span class="opp-info">
+					<span class="opp-name"></span><span>'s ships:</span> <span id="opp-ships"></span>
+				</span>
+			</div>
 		</div>
-		<div class="ship-number-display">
-			<span class="player-info">
-				<span class="player-name"></span><span>'s ships:</span> <span id="player-ships"></span>
-			</span>
-			<span class="opp-info">
-				<span class="opp-name"></span><span>'s ships:</span> <span id="opp-ships"></span>
-			</span>
+		<div class="game-area">		
+			<div class="board" id="own-board">
+				<!-- own board, rendered by js -->
+			</div>
+			<div class="board" id="opp-board">
+				<!-- opponent board, rendered by js -->
+			</div>
 		</div>
-	</div>
-	<div class="game-area">		
-		<div id="own-board">
-			<!-- own board, rendered by js -->
-		</div>
-		<div id="opp-board">
-			<!-- opponent board, rendered by js -->
-		</div>
-
-	</div>
 	</div>
 	<script src="main.js"></script>
 </body>
