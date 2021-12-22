@@ -24,7 +24,7 @@ describe('Gameboard', () => {
 			expect(board.nShips).toBe(nPrevShips + 1);
 			for(let i = 6; i < 8; i++)
 			{
-				correctlyAssigned = correctlyAssigned && (board.mat[4][i][0] == 4 && board.mat[4][i][1] == 5)
+				correctlyAssigned = correctlyAssigned && (board.mat[4][i].start[0] == 4 && board.mat[4][i].start[1] == 5)
 			}
 			
 			expect(correctlyAssigned).toBe(true);
@@ -37,7 +37,7 @@ describe('Gameboard', () => {
 			let correctlyAssigned = true;
 			for(let i = 8; i < 10; i++)
 			{
-				correctlyAssigned = correctlyAssigned && (board.mat[i][7][0] == 7 && board.mat[i][7][1] == 7);
+				correctlyAssigned = correctlyAssigned && (board.mat[i][7].start[0] == 7 && board.mat[i][7].start[1] == 7);
 			}
 			expect(correctlyAssigned).toBe(true);
 		});

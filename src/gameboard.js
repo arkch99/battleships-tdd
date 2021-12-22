@@ -3,6 +3,7 @@ import Ship from "./ship.js";
 const Gameboard = function() {	
 	return {
 		mat: [...Array(10)].map(row => Array(10).fill(null)),
+		shipInfos: [],
 		nShips: 0,
 		placeShip: function(coords, length, dir) {
 			// dir = 0 => horz; dir = 1 => vert
@@ -38,7 +39,7 @@ const Gameboard = function() {
 				}
 				for(let i = x + 1; i < x + length; i++)
 				{
-					this.mat[i][y] = [x, y]; // coords of parent ship
+					this.mat[i][y] = {start:[x, y], end:[x + length - 1, y]}; // coords of parent ship
 				}
 			}
 			else // horz
@@ -52,11 +53,15 @@ const Gameboard = function() {
 				}		
 				for(let i = y + 1; i < y + length; i++)
 				{
-					this.mat[x][i] = [x, y]; // coords of parent ship
+					this.mat[x][i] = {start:[x, y], end:[x, y + length - 1]}; // coords of parent ship
 				}
 			}
 			this.mat[x][y] = Ship(length);
 			this.nShips++;
+			this.shipInfos.push({
+				coords:[x, y],
+				dir: dir
+			});
 			return true;
 		},
 		receiveAttack: function(x, y) {
@@ -73,10 +78,10 @@ const Gameboard = function() {
 			}
 			else
 			{
-				if(Array.isArray(this.mat[x][y])) // hit body of ship
+				if(Array.isArray(this.mat[x][y].start)) // hit body of ship
 				{
-					let ship_x  = this.mat[x][y][0];
-					let ship_y  = this.mat[x][y][1];
+					let ship_x  = this.mat[x][y].start[0];
+					let ship_y  = this.mat[x][y].start[1];
 					let hitShip = this.mat[ship_x][ship_y];					
 					let hitPos = Math.max(x - ship_x, y - ship_y); // calculate position of hit on ship
 					let successfulHit = hitShip.hit(hitPos);
@@ -146,5 +151,4 @@ const Gameboard = function() {
 	};
 }
 
-// module.exports = {Gameboard};
 export default Gameboard;

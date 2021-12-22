@@ -24,3 +24,38 @@ body, .info-display, .ship-number-display{
 	border-style: solid;
 	border-width: 1px;
 }
+
+$player-ship-border-colour: black;
+$player-ship-border-width: 2px;
+
+.intact-ship{
+	background-color: gray;	
+}
+
+.ship-horz{
+	border-top: $player-ship-border-width solid $player-ship-border-colour;
+	border-bottom: $player-ship-border-width solid $player-ship-border-colour;	
+}
+
+.ship-start-horz{
+	@extend .ship-horz;
+	border-left: $player-ship-border-width solid $player-ship-border-colour;	
+}
+.ship-end-horz{
+	@extend .ship-horz;
+	border-right: $player-ship-border-width solid $player-ship-border-colour;
+}
+
+.ship-vert{
+	border-left: $player-ship-border-width solid $player-ship-border-colour;
+	border-right: $player-ship-border-width solid $player-ship-border-colour;	
+}
+
+.ship-start-vert{
+	@extend .ship-vert;
+	border-top: $player-ship-border-width solid $player-ship-border-colour;
+}
+.ship-end-vert{
+	@extend .ship-vert;
+	border-bottom: $player-ship-border-width solid $player-ship-border-colour;
+}

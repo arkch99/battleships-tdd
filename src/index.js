@@ -19,7 +19,7 @@ function drawBoards(player1, player2)
 		{
 			let cellPlayer = document.createElement('div');
 			cellPlayer.classList.add('board-cell');					
-			cellPlayer.id = `pl${i}${j}`;
+			cellPlayer.id = `pl${i}${j}`;					
 			player1BoardContainer.appendChild(cellPlayer);
 			
 			let cellOpp = document.createElement('div');
@@ -28,6 +28,30 @@ function drawBoards(player1, player2)
 			player2BoardContainer.appendChild(cellOpp);
 		}
 	}
+
+	player1.board.shipInfos.forEach(ship => {
+		let startX = ship.coords[0];
+		let startY = ship.coords[1];
+		let selectedShip = player1.board.mat[startX][startY];
+		let endX = ship.dir == 0 ? startX : startX + selectedShip.length - 1;
+		let endY = ship.dir == 0 ? startY + selectedShip.length - 1 : startY;
+		document.getElementById(`pl${startX}${startY}`).classList.add(ship.dir == 0 ? 'ship-start-horz' : 'ship-start-vert', 'intact-ship');
+		document.getElementById(`pl${endX}${endY}`).classList.add(ship.dir == 0 ? 'ship-end-horz': 'ship-end-vert', 'intact-ship');
+		if(ship.dir == 0)
+		{
+			for(let i = startY + 1; i < endY; i++)
+			{
+				document.getElementById(`pl${startX}${i}`).classList.add('ship-horz', 'intact-ship');
+			}
+		}
+		else
+		{
+			for(let i = startX + 1; i < endX; i++)
+			{
+				document.getElementById(`pl${i}${startY}`).classList.add('ship-vert', 'intact-ship');
+			}
+		}
+	});
 	
 	player2BoardContainer.style.gridTemplateRows = 'repeat(10, auto)';
 	player2BoardContainer.style.gridTemplateColumns = 'repeat(10, auto)';

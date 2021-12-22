@@ -37,5 +37,4 @@ const Player = function(name, isAI){
 	};
 }
 
-// module.exports = {Player};
 export default Player;
