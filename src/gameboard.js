@@ -65,9 +65,10 @@ const Gameboard = function() {
 			return true;
 		},
 		receiveAttack: function(x, y) {
-			let attackObj = {invalid:null, hit:null, ship:null};
+			let attackObj = {invalid:null, hit:null, ship:null, coords: null};
 			if(this.mat[x][y] === null) // miss
 			{
+				attackObj.coords = [x, y];
 				attackObj.invalid = false;
 				attackObj.hit = false;				
 				this.mat[x][y] = -1;
@@ -77,19 +78,21 @@ const Gameboard = function() {
 				attackObj.invalid = true;
 			}
 			else
-			{
+			{				
 				if(Array.isArray(this.mat[x][y].start)) // hit body of ship
 				{
 					let ship_x  = this.mat[x][y].start[0];
 					let ship_y  = this.mat[x][y].start[1];
-					let hitShip = this.mat[ship_x][ship_y];					
+					let hitShip = this.mat[ship_x][ship_y];						
 					let hitPos = Math.max(x - ship_x, y - ship_y); // calculate position of hit on ship
+					
 					let successfulHit = hitShip.hit(hitPos);
 					if(successfulHit)
 					{
 						attackObj.invalid = false;
 						attackObj.hit = true;
 						attackObj.ship = hitShip;
+						attackObj.coords = [x, y];
 
 						if(hitShip.isSunk())
 						{
@@ -101,7 +104,7 @@ const Gameboard = function() {
 						attackObj.invalid = true;						
 					}
 				}
-				else if(typeof(this.mat[x][y]) === 'object')
+				else if(typeof(this.mat[x][y]) === 'object') // hit head
 				{
 					let hitShip = this.mat[x][y];
 					let successfulHit = hitShip.hit(0);
@@ -110,7 +113,8 @@ const Gameboard = function() {
 						attackObj.invalid = false;
 						attackObj.hit = true;
 						attackObj.ship = hitShip;
-
+						attackObj.coords = [x, y];
+						
 						if(hitShip.isSunk())
 						{
 							this.nShips--;

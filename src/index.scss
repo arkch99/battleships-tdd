@@ -1,0 +1,15 @@
+* {
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 20px;
+}
+body, .info-display, .ship-number-display{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;	
+}
+
+.game-area{
+	display: flex;
+}
+
