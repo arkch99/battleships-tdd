@@ -6,6 +6,14 @@ import './ship.scss';
 import './board.scss';
 
 let player1turn = true;
+let gameOverFlag = false;
+
+
+function disableBoards()
+{
+	document.getElementById('opp-board').classList.add('click-disabled');
+	document.getElementById('own-board').classList.add('click-disabled');
+}
 
 function markSquares(player1, player2, attackObj)
 {
@@ -61,6 +69,18 @@ function markSquares(player1, player2, attackObj)
 			// hitCell.classList.add('sunk-ship');
 			document.getElementById('player-ships').textContent = player2.isAI ? player1.board.nShips : player2.board.nShips;
 			document.getElementById('opp-ships').textContent = player2.isAI ? player2.board.nShips : player1.board.nShips;
+			if(player1.board.nShips == 0)
+			{
+				document.getElementById('turn-display').textContent = `${player2.name} wins!`;
+				gameOverFlag = true;
+				disableBoards();
+			}
+			else if(player2.board.nShips == 0)
+			{
+				document.getElementById('turn-display').textContent = `${player1.name} wins!`;
+				gameOverFlag = true;
+				disableBoards();
+			}
 		}
 		else
 		{
@@ -107,6 +127,10 @@ function paintShip(shipInfoObj, cellPrefix, player)
 
 function oppClickListener(e, player1, player2)
 {
+	if(gameOverFlag)
+	{
+		return;
+	}
 	const cellID = e.target.id;
 	let cellCoords = cellID.substr(2);
 	let cellX = parseInt(cellCoords.charAt(0));
@@ -117,13 +141,16 @@ function oppClickListener(e, player1, player2)
 	
 	if(!attackObj.invalid)
 	{
-		markSquares(player1, player2, attackObj);
-		let oppAttackObj = player2.makeMoveAI(player1); //player 2's move
-		document.getElementById('turn-display').textContent = 'AI is attacking...';
-		setTimeout(() => {
-			markSquares(player2, player1, oppAttackObj);
-			document.getElementById('turn-display').textContent = 'Your turn!';
-		}, 2000);
+		markSquares(player1, player2, attackObj);		
+		if(!gameOverFlag)		
+		{
+			let oppAttackObj = player2.makeMoveAI(player1); //player 2's move
+			document.getElementById('turn-display').textContent = 'AI is attacking...';
+			setTimeout(() => {
+				markSquares(player2, player1, oppAttackObj);
+				document.getElementById('turn-display').textContent = 'Your turn!';
+			}, 2000);
+		}		
 	}
 }
 
