@@ -109,13 +109,15 @@ describe('Gameboard', () => {
 		test('registers hits on body', () => {
 			expect(board.receiveAttack(1, 4)).toStrictEqual({
 				invalid: false,
-				hit: true,
+				hit: true,				
 				ship: {
 					length: 5,
 					locations:[false, false, true, false, false],
+					dir: expect.any(Number),
 					isSunk: expect.any(Function),
 					hit: expect.any(Function)
-				}
+				},
+				coords: expect.any(Array)
 			});
 		});
 		test('registers hits on head', () => {
@@ -125,9 +127,11 @@ describe('Gameboard', () => {
 				ship: {
 					length: 3,
 					locations:[true, false, false],
+					dir: expect.any(Number),
 					isSunk: expect.any(Function),
 					hit: expect.any(Function)
-				}
+				},
+				coords: expect.any(Array)
 			});
 		});
 		test('registers mutiple hits', () => {
@@ -138,10 +142,12 @@ describe('Gameboard', () => {
 				hit: true,
 				ship: {
 					length: 3,
+					dir: expect.any(Number),
 					locations: [true, true, false],
 					isSunk: expect.any(Function),
 					hit: expect.any(Function)
-				}
+				},
+				coords: expect.any(Array)
 			});
 			expect(board.nShips).toStrictEqual(nPrevShips);
 		});
@@ -156,14 +162,16 @@ describe('Gameboard', () => {
 			expect(board.receiveAttack(4, 6)).toStrictEqual({
 				invalid: true,
 				hit: null,
-				ship: null
+				ship: null,
+				coords: null
 			});
 		});
 		test('does not allow attack on missed square', () => {
 			expect(board.receiveAttack(0, 4)).toStrictEqual({
 				invalid: true,
 				hit: null,
-				ship: null
+				ship: null,
+				coords: null
 			});
 		});
 	});

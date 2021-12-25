@@ -3,7 +3,7 @@ import Ship from './ship';
 describe('Ship', () => {
 	let testShip;
 	beforeAll(() => {
-		testShip = Ship(4);
+		testShip = Ship(4, 0);
 	});
 	test('is created', ()=>{
 		expect(testShip).not.toBeUndefined();

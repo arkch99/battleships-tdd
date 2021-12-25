@@ -5,6 +5,8 @@ import './index.scss';
 import './ship.scss';
 import './board.scss';
 
+let player1turn = true;
+
 function markSquares(player1, player2, attackObj)
 {
 	// TODO: make 'opponent' 
@@ -13,7 +15,7 @@ function markSquares(player1, player2, attackObj)
 	let hitY = attackObj.coords[1];
 	let cellIDPrefix = `${player1.isAI ? 'pl' : 'op'}`;
 	const hitCell = document.getElementById(`${cellIDPrefix}${hitX}${hitY}`);	
-	if(attackObj.hit == false) // miss
+	if(!attackObj.hit) // miss
 	{
 		hitCell.classList.add('missed-square');
 	}
@@ -38,17 +40,17 @@ function markSquares(player1, player2, attackObj)
 			{
 				sunkShipStartX = hitX;
 				sunkShipStartY = hitY;
-				if(dir == 0) // horz
+				if(ship.dir == 0) // horz
 				{
-					sunkShipEndY = sunkShipStartY + ship.length;
+					sunkShipEndY = sunkShipStartY + ship.length - 1;
 					sunkShipEndX = sunkShipStartX;
 				}
 				else // vert
 				{
-					sunkShipEndX = sunkShipStartX + ship.length;
+					sunkShipEndX = sunkShipStartX + ship.length - 1;
 					sunkShipEndY = sunkShipStartY;
 				}	
-			}
+			}			
 			for(let i = sunkShipStartX; i <= sunkShipEndX; i++)
 			{
 				for(let j = sunkShipStartY; j <= sunkShipEndY; j++)
@@ -63,6 +65,42 @@ function markSquares(player1, player2, attackObj)
 		else
 		{
 			hitCell.classList.add('hit-square');
+		}
+	}
+	if(player1turn)
+	{
+		document.getElementById('opp-board').classList.add('click-disabled');
+		// for mp? document.getElementById('opp-board').classList.remove('click-disabled')		
+		player1turn = false;
+	}
+	else
+	{
+		document.getElementById('opp-board').classList.remove('click-disabled');
+		player1turn = true;
+	}
+}
+
+function paintShip(shipInfoObj, cellPrefix, player)
+{
+	let startX = shipInfoObj.coords[0];
+	let startY = shipInfoObj.coords[1];
+	let selectedShip = player.board.mat[startX][startY];
+	let endX = shipInfoObj.dir == 0 ? startX : startX + selectedShip.length - 1;
+	let endY = shipInfoObj.dir == 0 ? startY + selectedShip.length - 1 : startY;
+	document.getElementById(`${cellPrefix}${startX}${startY}`).classList.add(shipInfoObj.dir == 0 ? 'ship-start-horz' : 'ship-start-vert', 'intact-ship');
+	document.getElementById(`${cellPrefix}${endX}${endY}`).classList.add(shipInfoObj.dir == 0 ? 'ship-end-horz': 'ship-end-vert', 'intact-ship');
+	if(shipInfoObj.dir == 0)
+	{
+		for(let i = startY + 1; i < endY; i++)
+		{
+			document.getElementById(`${cellPrefix}${startX}${i}`).classList.add('ship-horz', 'intact-ship');
+		}
+	}
+	else
+	{
+		for(let i = startX + 1; i < endX; i++)
+		{
+			document.getElementById(`${cellPrefix}${i}${startY}`).classList.add('ship-vert', 'intact-ship');
 		}
 	}
 }
@@ -117,54 +155,14 @@ function drawBoards(player1, player2)
 	}
 
 	player1.board.shipInfos.forEach(ship => {
-		let startX = ship.coords[0];
-		let startY = ship.coords[1];
-		let selectedShip = player1.board.mat[startX][startY];
-		let endX = ship.dir == 0 ? startX : startX + selectedShip.length - 1;
-		let endY = ship.dir == 0 ? startY + selectedShip.length - 1 : startY;
-		document.getElementById(`pl${startX}${startY}`).classList.add(ship.dir == 0 ? 'ship-start-horz' : 'ship-start-vert', 'intact-ship');
-		document.getElementById(`pl${endX}${endY}`).classList.add(ship.dir == 0 ? 'ship-end-horz': 'ship-end-vert', 'intact-ship');
-		if(ship.dir == 0)
-		{
-			for(let i = startY + 1; i < endY; i++)
-			{
-				document.getElementById(`pl${startX}${i}`).classList.add('ship-horz', 'intact-ship');
-			}
-		}
-		else
-		{
-			for(let i = startX + 1; i < endX; i++)
-			{
-				document.getElementById(`pl${i}${startY}`).classList.add('ship-vert', 'intact-ship');
-			}
-		}
+		paintShip(ship, 'pl', player1);
 	});
 	
 	player2BoardContainer.style.gridTemplateRows = 'repeat(10, auto)';
 	player2BoardContainer.style.gridTemplateColumns = 'repeat(10, auto)';
 
 	player2.board.shipInfos.forEach(ship => {
-		let startX = ship.coords[0];
-		let startY = ship.coords[1];
-		let selectedShip = player2.board.mat[startX][startY];
-		let endX = ship.dir == 0 ? startX : startX + selectedShip.length - 1;
-		let endY = ship.dir == 0 ? startY + selectedShip.length - 1 : startY;
-		document.getElementById(`op${startX}${startY}`).classList.add(ship.dir == 0 ? 'ship-start-horz' : 'ship-start-vert', 'intact-ship');
-		document.getElementById(`op${endX}${endY}`).classList.add(ship.dir == 0 ? 'ship-end-horz': 'ship-end-vert', 'intact-ship');
-		if(ship.dir == 0)
-		{
-			for(let i = startY + 1; i < endY; i++)
-			{
-				document.getElementById(`op${startX}${i}`).classList.add('ship-horz', 'intact-ship');
-			}
-		}
-		else
-		{
-			for(let i = startX + 1; i < endX; i++)
-			{
-				document.getElementById(`op${i}${startY}`).classList.add('ship-vert', 'intact-ship');
-			}
-		}
+		paintShip(ship, 'op', player2);
 	});
 }
 

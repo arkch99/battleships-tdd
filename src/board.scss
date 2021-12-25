@@ -10,6 +10,10 @@
 	border-width: 1px;
 }
 
+.click-disabled{
+	pointer-events: none;
+}
+
 .board-cell:hover{
 	border: 2px green solid;
 }

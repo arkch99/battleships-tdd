@@ -39,6 +39,8 @@ const Gameboard = function() {
 				}
 				for(let i = x + 1; i < x + length; i++)
 				{
+					// board index is 0 based, so length - 1 
+					// ie ship at [0][0] of length 2 will have end pt at 0 + 2 - 1 = 1
 					this.mat[i][y] = {start:[x, y], end:[x + length - 1, y]}; // coords of parent ship
 				}
 			}
@@ -56,7 +58,7 @@ const Gameboard = function() {
 					this.mat[x][i] = {start:[x, y], end:[x, y + length - 1]}; // coords of parent ship
 				}
 			}
-			this.mat[x][y] = Ship(length);
+			this.mat[x][y] = Ship(length, dir);
 			this.nShips++;
 			this.shipInfos.push({
 				coords:[x, y],
