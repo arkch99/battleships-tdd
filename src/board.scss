@@ -15,7 +15,8 @@
 }
 
 .board-cell:hover{
-	border: 2px green solid;
+	// border: 2px green solid;
+	outline: solid rgb(245, 143, 10);
 }
 
 .hit-square{
@@ -23,7 +24,7 @@
 }
 
 .missed-square{
-	background-color: aquamarine;
+	background-color: rgb(30, 172, 238);
 }
 
 .sunk-ship{

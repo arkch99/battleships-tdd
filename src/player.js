@@ -1,4 +1,3 @@
-// const gameboard = require('./gameboard');
 import Gameboard from "./gameboard.js";
 
 const Player = function(name, isAI){

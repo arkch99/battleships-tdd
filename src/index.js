@@ -17,7 +17,7 @@ function disableBoards()
 
 function markSquares(player1, player2, attackObj)
 {
-	// TODO: make 'opponent' 
+	// TODO: make 'opponent' player2 everywhere
 	// player 1 attacks player 2
 	let hitX = attackObj.coords[0];
 	let hitY = attackObj.coords[1];
@@ -25,7 +25,7 @@ function markSquares(player1, player2, attackObj)
 	const hitCell = document.getElementById(`${cellIDPrefix}${hitX}${hitY}`);	
 	if(!attackObj.hit) // miss
 	{
-		hitCell.classList.add('missed-square');
+		hitCell.classList.add('missed-square', 'click-disabled');
 	}
 	else
 	{
@@ -63,10 +63,9 @@ function markSquares(player1, player2, attackObj)
 			{
 				for(let j = sunkShipStartY; j <= sunkShipEndY; j++)
 				{
-					document.getElementById(`${cellIDPrefix}${i}${j}`).classList.add('sunk-ship');
+					document.getElementById(`${cellIDPrefix}${i}${j}`).classList.add('sunk-ship', 'click-disabled');
 				}
 			}
-			// hitCell.classList.add('sunk-ship');
 			document.getElementById('player-ships').textContent = player2.isAI ? player1.board.nShips : player2.board.nShips;
 			document.getElementById('opp-ships').textContent = player2.isAI ? player2.board.nShips : player1.board.nShips;
 			if(player1.board.nShips == 0)
@@ -84,7 +83,7 @@ function markSquares(player1, player2, attackObj)
 		}
 		else
 		{
-			hitCell.classList.add('hit-square');
+			hitCell.classList.add('hit-square', 'click-disabled');
 		}
 	}
 	if(player1turn)
@@ -135,7 +134,6 @@ function oppClickListener(e, player1, player2)
 	let cellCoords = cellID.substr(2);
 	let cellX = parseInt(cellCoords.charAt(0));
 	let cellY = parseInt(cellCoords.charAt(1));
-	// let attackObj = {invalid:true};
 	
 	let attackObj = player1.makeMove(player2, cellX, cellY);
 	
