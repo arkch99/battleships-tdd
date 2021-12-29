@@ -146,6 +146,11 @@ function oppClickListener(e, player1, player2)
 			document.getElementById('turn-display').textContent = 'AI is attacking...';
 			setTimeout(() => {
 				markSquares(player2, player1, oppAttackObj);
+				if(gameOverFlag)
+				{
+					disableBoards();
+					return;
+				}
 				document.getElementById('turn-display').textContent = 'Your turn!';
 			}, 2000);
 		}		

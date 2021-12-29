@@ -153,6 +153,26 @@ const Gameboard = function() {
 					continue;
 				}
 			}
+		},
+		getShipFromCoords: function(coords) {
+			let x = coords[0];
+			let y = coords[1];
+			let cellContent = this.mat[x][y];
+			if(cellContent !== null && typeof(cellContent) === 'object')
+			{
+				if(Array.isArray(cellContent.start)) // body, so find head of ship ie actual object
+				{
+					return this.mat[cellContent.start[0]][cellContent.start[1]];
+				}
+				else // already found head, so return
+				{
+					return cellContent;
+				}
+			}
+			else // no ship here
+			{
+				return null;
+			}
 		}
 	};
 }
