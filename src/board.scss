@@ -30,3 +30,19 @@
 .sunk-ship{
 	background-color: darkred;
 }
+
+.placement-container{
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	align-items: center;
+	row-gap: 20px;	
+}
+
+#placement-board{
+	margin-right: 0px;
+}
+
+#orientation-btn{
+	margin-top: 15px;
+}

@@ -7,7 +7,10 @@ import './board.scss';
 
 let player1turn = true;
 let gameOverFlag = false;
-
+let shipLengths = [5, 4, 3, 3, 2];
+let selectedShipIndex = 0; // initialise to something sensible
+let selectedShipDir = 0; // 0 => horz; 1 => vert
+let mode = 0; // 0 => ship placement, 1 => play
 
 function disableBoards()
 {
@@ -157,6 +160,7 @@ function oppClickListener(e, player1, player2)
 	}
 }
 
+// draws and adds play functionality to boards
 function drawBoards(player1, player2)
 {
 	const player1BoardContainer = document.getElementById('own-board');
@@ -191,18 +195,116 @@ function drawBoards(player1, player2)
 	player2BoardContainer.style.gridTemplateRows = 'repeat(10, auto)';
 	player2BoardContainer.style.gridTemplateColumns = 'repeat(10, auto)';
 
-	player2.board.shipInfos.forEach(ship => {
-		paintShip(ship, 'op', player2);
-	});
+	// debug
+	// player2.board.shipInfos.forEach(ship => {
+	// 	paintShip(ship, 'op', player2);
+	// });
 }
 
+function drawPlacementBoard(player)
+{
+	const boardContainer = document.getElementById('placement-board');
+
+	boardContainer.style.gridTemplateRows = 'repeat(10, auto)';
+	boardContainer.style.gridTemplateColumns = 'repeat(10, auto)';
+
+	for(let i = 0; i < 10; i++)
+	{
+		for(let j = 0; j < 10; j++)
+		{
+			let cellPlayer = document.createElement('div');
+			cellPlayer.classList.add('board-cell');					
+			cellPlayer.id = `pl${i}${j}`;					
+			boardContainer.appendChild(cellPlayer);			
+		}
+	}	
+}
+
+function placeShipListener(event, player1, player2)
+{
+	// assume that this is always called for player1
+	let coordStr = event.target.id.substr(2);
+	let x = parseInt(coordStr.charAt(0));
+	let y = parseInt(coordStr.charAt(1));
+	let selectedShipLength = shipLengths[selectedShipIndex];
+
+	let isSuccess = player1.board.placeShip([x, y], selectedShipLength, selectedShipDir);
+	if(!isSuccess)
+	{
+		alert('Invalid position!');
+	}
+	else
+	{
+		selectedShipIndex++;
+		document.getElementById('turn-display').textContent = `Placing ship of length: ${shipLengths[selectedShipIndex]}`;
+		document.getElementById('rem-ships').textContent = ` ${shipLengths.length - selectedShipIndex}`;
+		
+		player1.board.shipInfos.forEach(ship => {
+			paintShip(ship, 'pl', player1);
+		});	
+		if(selectedShipIndex === shipLengths.length) // placed all ships
+		{
+			selectedShipIndex = null;
+			mode = 1;
+			document.getElementById('placement-board').remove();
+			document.getElementById('orientation-btn').remove();
+			
+			document.getElementById('opp-board').style.display = 'grid';
+			document.getElementById('own-board').style.display = 'grid';
+
+			document.querySelector('.ship-place-info').remove();
+			
+
+			document.getElementById('turn-display').textContent = 'All ships placed. Get ready!';
+
+			setTimeout(() =>{
+				document.getElementById('turn-display').textContent = 'Your turn!';
+				document.querySelectorAll('.player-info, .opp-info').forEach(ele => ele.style.display = 'block');
+				drawBoards(player1, player2);
+				document.getElementById('opp-board').classList.remove('click-disabled');
+				document.getElementById('own-board').classList.add('click-disabled');
+			}, 2000);		
+		}
+	}
+}
+
+function changeOrientationListener(event)
+{
+	const dirTexts = {0:'Horizontal', 1:'Vertical'};
+	selectedShipDir = (selectedShipDir + 1) % 2;
+	event.target.textContent = dirTexts[selectedShipDir];
+}
+
+function setupBoardManual(player1, player2)
+{
+	mode = 0; // is this even necessary?
+	
+	document.getElementById('own-board').style.display = 'none';
+	document.getElementById('opp-board').style.display = 'none'
+	document.getElementById('orientation-btn').addEventListener('click', e => changeOrientationListener(e));
+
+	drawPlacementBoard(player1);
+
+	document.getElementById('turn-display').textContent = `Placing ship of length: ${shipLengths[selectedShipIndex]}`;
+	document.getElementById('rem-ships').textContent = ` ${shipLengths.length - selectedShipIndex}`;
+	document.querySelectorAll('.player-info, .opp-info').forEach(ele => ele.style.display = 'none');
+
+	for(let i = 0; i < 10; i++)
+	{
+		for(let j = 0; j < 10; j++)
+		{
+			let cell = document.getElementById(`pl${i}${j}`);			
+			cell.addEventListener('click', (e) => placeShipListener(e, player1, player2));	
+		}
+	}
+
+}
 
 function init(name)
 {
 	const playerHuman = Player(name, false);
 	const playerAI = Player('AI', true);
-	
-	document.getElementById('turn-display').textContent = 'Your turn!';
+	playerAI.board.setupBoard();	
 	
 	document.getElementById('info-get-screen').style.display = 'none';
 	document.getElementById('game-screen').style.display = 'block';
@@ -212,10 +314,7 @@ function init(name)
 	document.querySelectorAll('.opp-name').forEach(ele => {
 		ele.textContent = 'AI';
 	});
-	playerHuman.board.setupBoard();
-	playerAI.board.setupBoard();
-
-	drawBoards(playerHuman, playerAI);
+	setupBoardManual(playerHuman, playerAI);
 }
 
 function getName()
