@@ -2,7 +2,6 @@
 	display: grid;
 	width: 50vh;
 	height: 50vh;
-	margin-right: 50px;
 }
 
 .board-cell{
@@ -15,7 +14,6 @@
 }
 
 .board-cell:hover{
-	// border: 2px green solid;
 	outline: solid rgb(245, 143, 10);
 }
 

@@ -11,5 +11,11 @@ body, .info-display, .ship-number-display{
 
 .game-area{
 	display: flex;
+	margin-top: 20px;
+	gap: 20px;
+	height: 75%;
+	width: 100%;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 

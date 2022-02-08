@@ -246,8 +246,8 @@ function placeShipListener(event, player1, player2)
 		{
 			selectedShipIndex = null;
 			mode = 1;
-			document.getElementById('placement-board').remove();
-			document.getElementById('orientation-btn').remove();
+			
+			document.querySelector('.placement-container').remove();			
 			
 			document.getElementById('opp-board').style.display = 'grid';
 			document.getElementById('own-board').style.display = 'grid';
