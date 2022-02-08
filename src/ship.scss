@@ -2,7 +2,7 @@ $player-ship-border-colour: black;
 $player-ship-border-width: 2px;
 
 .intact-ship{
-	background-color: gray;	
+	background-color: gray !important;	// hack to override board background colour
 }
 
 .ship-horz{

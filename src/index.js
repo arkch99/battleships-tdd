@@ -67,6 +67,7 @@ function markSquares(player1, player2, attackObj)
 				for(let j = sunkShipStartY; j <= sunkShipEndY; j++)
 				{
 					document.getElementById(`${cellIDPrefix}${i}${j}`).classList.add('sunk-ship', 'click-disabled');
+					document.getElementById(`${cellIDPrefix}${i}${j}`).classList.remove('intact-ship');
 				}
 			}
 			document.getElementById('player-ships').textContent = player2.isAI ? player1.board.nShips : player2.board.nShips;
@@ -87,6 +88,7 @@ function markSquares(player1, player2, attackObj)
 		else
 		{
 			hitCell.classList.add('hit-square', 'click-disabled');
+			hitCell.classList.remove('intact-ship');
 		}
 	}
 	if(player1turn)

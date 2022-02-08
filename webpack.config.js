@@ -7,14 +7,20 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
   },
-  module: {
+  module: {   
     rules: [
       {
         test: /\.s[ac]ss$/i,
-        use: [
+        use: [          
           "style-loader",
           "css-loader",
           "sass-loader"
+        ]
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          "file-loader"
         ]
       }
     ]

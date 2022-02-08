@@ -1,7 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+
 * {
-	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	// font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; vanilla fonts
+	font-family: "Orbitron";
+	font-weight: 400;
 	font-size: 20px;
 }
+button{
+	border-radius: 0%;
+	background-color: aliceblue;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+
+#heading{
+	font-family: "Orbitron";
+	font-size: 2em;
+	letter-spacing: 0.3rem;	
+	font-weight: 600;
+}
+
 body, .info-display, .ship-number-display{
 	display: flex;
 	justify-content: center;
